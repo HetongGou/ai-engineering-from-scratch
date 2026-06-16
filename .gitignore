@@ -10,6 +10,9 @@ venv/
 dist/
 build/
 .eggs/
+*.pt
+*.pth
+*.safetensors
 
 .ipynb_checkpoints/
 *.ipynb_metadata/
