@@ -3,11 +3,12 @@ FROM nvidia/cuda:12.4.1-devel-ubuntu22.04
 ENV DEBIAN_FRONTEND=noninteractive
 ENV PYTHONUNBUFFERED=1
 
-RUN apt-get update && apt-get install -y --no-install-recommends \
+RUN apt-get update && apt-get install -y software-properties-common && \
+    add-apt-repository ppa:deadsnakes/ppa && \
+    apt-get update && apt-get install -y --no-install-recommends \
     python3.12 \
     python3.12-venv \
     python3.12-dev \
-    python3-pip \
     git \
     curl \
     build-essential \
@@ -15,12 +16,14 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 RUN update-alternatives --install /usr/bin/python python /usr/bin/python3.12 1
 
+RUN curl -sS https://bootstrap.pypa.io/get-pip.py | python
+
 RUN python -m pip install --no-cache-dir --upgrade pip setuptools wheel
 
 RUN python -m pip install --no-cache-dir \
-    torch==2.3.1 \
-    torchvision==0.18.1 \
-    torchaudio==2.3.1 \
+    torch==2.6.0 \
+    torchvision==0.21.0 \
+    torchaudio==2.6.0 \
     --index-url https://download.pytorch.org/whl/cu124
 
 RUN python -m pip install --no-cache-dir \
@@ -32,7 +35,8 @@ RUN python -m pip install --no-cache-dir \
     transformers \
     datasets \
     accelerate \
-    safetensors
+    safetensors \
+    qdrant-client
 
 WORKDIR /workspace
 
