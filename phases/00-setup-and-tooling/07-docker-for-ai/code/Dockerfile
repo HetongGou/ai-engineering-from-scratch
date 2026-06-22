@@ -38,6 +38,11 @@ RUN python -m pip install --no-cache-dir \
     safetensors \
     qdrant-client
 
+RUN python -m pip install --no-cache-dir --ignore-installed blinker
+
+RUN python -m pip install --no-cache-dir flask
+# 再装 flask，这时 blinker 冲突已经解决
+
 WORKDIR /workspace
 
 VOLUME ["/workspace", "/models"]
